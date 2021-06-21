@@ -46,12 +46,12 @@ async def answer_iq(_, iq: InlineQuery):
     split = query.split(' ', 1)
     if query == '' or len(query) > ANSWER_CALLBACK_QUERY_MAX_LENGTH \
             or (query.startswith('@') and len(split) == 1):
-        title = f"{emoji.FIRE} Write a whisper message"
+        title = f"✉️ Tulis Pesanmu Disini"
         content = ("**Send whisper messages through inline mode**\n\n"
-                   "Usage: `@ezWhisperBot [@username|@] text`")
-        description = "Usage: @ezWhisperBot [@username|@] text"
+                   "**Ketik**: `@ezWhisperBot [@username|@] pesanmu`")
+        description = "*Ketik**: @ezWhisperBot [@username|@] pesanmu"
         button = InlineKeyboardButton(
-            "Learn more...",
+            "Cara penggunaan...",
             url="https://t.me/ezWhisperBot?start=learn"
         )
     elif not query.startswith('@'):
@@ -61,20 +61,20 @@ async def answer_iq(_, iq: InlineQuery):
         )
         description = f"{emoji.SHUSHING_FACE} {query}"
         button = InlineKeyboardButton(
-            f"{emoji.EYE} show message",
+            f"{emoji.EYE} Buka Pesan",
             callback_data="show_whisper"
         )
     else:
         # Python 3.8+
         u_target = 'anyone' if (x := split[0]) == '@' else x
-        title = f"{emoji.LOCKED} A whisper message to {u_target}"
-        content = f"{emoji.LOCKED} A whisper message to {u_target}"
+        title = f"{emoji.LOCKED} Pesan ini dikirim untuk {u_target}"
+        content = f"{emoji.LOCKED} Pesan ini dikirim untuk {u_target}"
         description = f"{emoji.SHUSHING_FACE} {split[1]}"
         button = InlineKeyboardButton(
-            f"{emoji.LOCKED_WITH_KEY} show message",
+            f"{emoji.LOCKED_WITH_KEY} Buka Pesan",
             callback_data="show_whisper"
         )
-    switch_pm_text = f"{emoji.INFORMATION} Learn how to send whispers"
+    switch_pm_text = f"{emoji.INFORMATION} Lihat Cara Penggunaannya"
     switch_pm_parameter = "learn"
     await iq.answer(
         results=[
@@ -119,8 +119,8 @@ async def answer_cq(_, cq: CallbackQuery):
     inline_message_id = cq.inline_message_id
     if not inline_message_id or inline_message_id not in whispers:
         try:
-            await cq.answer("Can't find the whisper text", show_alert=True)
-            await cq.edit_message_text(f"{emoji.NO_ENTRY} invalid whisper")
+            await cq.answer("Tidak Dapat Mencari Pesan Ini", show_alert=True)
+            await cq.edit_message_text(f"{emoji.NO_ENTRY} invalid message")
         except (MessageIdInvalid, MessageNotModified):
             pass
         return
@@ -140,7 +140,7 @@ async def answer_cq(_, cq: CallbackQuery):
         if not receiver_uname:
             await read_the_whisper(cq)
             return
-        await cq.answer("This is not for you", show_alert=True)
+        await cq.answer("Pesan Ini Bukan Untukmu!", show_alert=True)
 
 
 async def read_the_whisper(cq: CallbackQuery):
@@ -159,7 +159,7 @@ async def read_the_whisper(cq: CallbackQuery):
     try:
         t_emoji = emoji.UNLOCKED if receiver_uname else emoji.EYES
         await cq.edit_message_text(
-            f"{t_emoji} {user_mention} read the message"
+            f"{t_emoji} {user_mention} Baca Pesan"
         )
     except (MessageIdInvalid, MessageNotModified):
         pass
