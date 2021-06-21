@@ -27,18 +27,18 @@ from data import whispers
 LEARN_TEXT = (
     "This bot works only in inline mode, a example use would be like "
     "this:\n\n"
-    "- Write a whisper to @username\n"
+    "❁ Tulis Pesan untuk @username\n"
     "`@ezWhisperBot @username some text here`\n\n"
-    "- Write a whisper which anyone can read it multiple times\n"
-    "`@ezWhisperBot @ some text here`\n\n"
-    "- Whisper to the first one who open it (can also be used in PM)\n"
-    "`@ezWhisperBot some text here`"
+    "❁ Tulis Pesanmu untuk semua orang dapat membacanya dan kapan saja\n"
+    "`@ezWhisperBot @ tulis pesammu`\n\n"
+    "❁ Pesan hanya dapat dibaca oleh orang pertama yang membuka (can also be used in PM)\n"
+    "`@ezWhisperBot tulis pesanmu`"
 )
 LEARN_REPLY_MARKUP = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                "Next",
+                "NEXT ▶",
                 callback_data="learn_next"
             )
         ]
@@ -46,8 +46,8 @@ LEARN_REPLY_MARKUP = InlineKeyboardMarkup(
 )
 
 DEFAULT_TEXT = (
-    "This bot allows you to send whisper messages, "
-    "works only in inline mode\n\n"
+    "Bot ini untuk mengirim pesan rahasia ke seseorang, "
+    "Hanya bekerja di inline mode\n\n"
     "[Source Code](https://github.com/dashezup/ezWhisperBot)"
     " | [Developer](https://t.me/dashezup)"
     " | [Support Chat](https://t.me/ezupdev)"
@@ -56,17 +56,17 @@ DEFAULT_REPLY_MARKUP = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                "Select a Chat to Try",
+                "Kirim Ke",
                 switch_inline_query=""
             ),
             InlineKeyboardButton(
-                "Try in This Chat",
+                "Coba Disini",
                 switch_inline_query_current_chat=""
             )
         ],
         [
             InlineKeyboardButton(
-                "My Whispers",
+                "Pesan Saya",
                 callback_data="list_whispers"
             )
         ]
@@ -113,20 +113,20 @@ async def list_whispers(_, cq: CallbackQuery):
         i for i in whispers.values() if i['sender_uid'] == user_id
     ]
     if len(user_whispers) == 0:
-        text = "You don't have any whispers"
+        text = "Kamu Tidak Memiliki Pesan Apapun"
     else:
-        text = f"You have **{len(user_whispers)}** whispers"
+        text = f"Kamu Memiliki Pesan **{len(user_whispers)}**"
     reply_markup = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    f"{emoji.WASTEBASKET}  Delete My Whispers",
+                    f"{emoji.WASTEBASKET}  Hapus Pesan Saya",
                     callback_data="delete_my_whispers"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    f"{emoji.BACK_ARROW}  Back to Main Page",
+                    f"{emoji.BACK_ARROW} Kembali Ke Home",
                     callback_data="start"
                 )
             ]
@@ -148,9 +148,9 @@ async def delete_my_whispers(_, cq: CallbackQuery):
         if v['sender_uid'] == user_id
     ]
     if len(deleted_whispers) == 0:
-        await cq.answer("You don't have any whispers")
+        await cq.answer("Kamu Tidak Memiliki Pesan")
     else:
-        await cq.answer(f"Removed {len(deleted_whispers)} whispers")
+        await cq.answer(f"Menghapus {len(deleted_whispers)} pesan")
         utcnow = datetime.utcnow().strftime('%F %T')
         await cq.edit_message_text(
             f"Your whispers has been removed at `{utcnow}`",
