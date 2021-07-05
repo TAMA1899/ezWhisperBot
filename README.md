@@ -1,5 +1,8 @@
 ## ezWhisperBot
 
+[![Deploy Disini](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TAMA1899/ezWhisperBot)
+
+
 Telegram Bot for sending whisper messages
 
 ### Requirements
