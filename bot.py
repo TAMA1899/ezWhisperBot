@@ -1,7 +1,7 @@
 # import logging
 import json
 
-from pyrogram import Client
+from Pyrogram import Client
 
 from data import whispers
 
